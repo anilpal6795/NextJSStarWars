@@ -1,0 +1,33 @@
+{
+  "name": "nextjsstarwars",
+  "version": "1.0.0",
+  "description": "This repository is for playing around with the basics of NextJS using the public star wars GraphQL API",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anilpal6795/NextJSStarWars.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anilpal6795/NextJSStarWars/issues"
+  },
+  "homepage": "https://github.com/anilpal6795/NextJSStarWars#readme",
+  "dependencies": {
+    "@apollo/client": "^3.0.2",
+    "bootstrap": "^4.5.0",
+    "express": "^4.17.1",
+    "graphql": "^15.3.0",
+    "next": "^9.4.4",
+    "nodemon": "^2.0.4",
+    "react": "^16.13.1",
+    "react-bootstrap": "^1.2.2",
+    "react-dom": "^16.13.1"
+  }
+}
