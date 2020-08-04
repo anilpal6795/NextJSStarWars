@@ -1,28 +1,36 @@
-import SWDataProvider from '../SWDataProvider';
 import PlanetTable from '../components/planetTable';
+import { GET_ALL_PLANETS, DATA_UNITS_COUNT } from '../utils/queries';
+import { useQuery } from '@apollo/client';
+import { initializeApolloClient } from '../utils/apollo';
 
-export default ({ data, error }) => {
-    return error ? (<h1>Error occurred. Please retry!</h1>) : (<PlanetTable data={data} />);
+export default () => {
+    const { data, errors, fetchMore } = useQuery(GET_ALL_PLANETS, {
+        variables: {
+            first: DATA_UNITS_COUNT,
+            skip: 0
+        },
+        ssr: true
+    })
+
+    return errors ? (<h1>Error occurred. Please retry!</h1>) : (
+        <PlanetTable data={data['allPlanets']} fetchMore={fetchMore} />
+    );
 }
 
 export const getServerSideProps = async () => {
-    const SWDataInstance = new SWDataProvider();
+    const client = initializeApolloClient();
 
-    const { data, errors } = await SWDataInstance.getAllPlanets(10);
-
-    if(data) {
-        return {
-            props: {
-                data: data['allPlanets']
-            }
+    await client.query({
+        query: GET_ALL_PLANETS,
+        variables: {
+            first: DATA_UNITS_COUNT,
+            skip: 0
         }
-    }
+    })
 
-    if(errors) {
-        return {
-            props: {
-                error: true
-            }
+    return {
+        props: {
+            apolloInitialState: client.cache.extract()
         }
     }
 }

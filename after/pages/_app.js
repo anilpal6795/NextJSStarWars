@@ -1,6 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import Header from '../components/header';
 import { useRouter } from 'next/router';
+import { useApollo } from '../utils/apollo';
+import { ApolloProvider } from '@apollo/client';
 
 const PageSection = ({ children }) => {
     return (
@@ -26,15 +28,17 @@ const PageTitle = ({ children }) => {
 
 const MyApp = ({Component, pageProps}) => {
     const router = useRouter();
+
+    const apolloClient = useApollo(pageProps.apolloInitialState)
     
     return (
-        <>
+        <ApolloProvider client={apolloClient}>
             <Header />
             <PageSection>
                 <PageTitle>{router.pathname}</PageTitle>
                 <Component {...pageProps} />
             </PageSection>
-        </>
+        </ApolloProvider>
     );
 }
 

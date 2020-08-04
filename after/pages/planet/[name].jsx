@@ -1,30 +1,41 @@
-import SWDataProvider from '../../SWDataProvider';
 import PlanetTable from '../../components/planetTable';
+import { initializeApolloClient } from '../../utils/apollo';
+import { GET_PLANET_BY_NAME } from '../../utils/queries';
+import { useQuery } from '@apollo/client';
+import { useRouter } from 'next/router'
 
-export default ({ data, error }) => {    
-    return error ? (<h1>Error occurred. Please retry!</h1>) : (<PlanetTable data={data} />);
+export default () => {
+    const router = useRouter();
+
+    const { name } = router.query;
+
+    const { data, errors } = useQuery(GET_PLANET_BY_NAME, {
+        variables: {
+            name
+        },
+        ssr: true
+    });
+
+    return errors ? (<h1>Error occurred. Please retry!</h1>) : (
+        <PlanetTable data={data['allPlanets']} />
+    );
 }
 
 export const getServerSideProps = async ({ params }) => {
-    //This is the dynamix route variable `name`
     const { name } = params;
-    const SWDataInstance = new SWDataProvider(name);
 
-    const { data, errors } = await SWDataInstance.getPlanetByName(name);
+    const client = initializeApolloClient();
 
-    if(data) {
-        return {
-            props: {
-                data: data['allPlanets']
-            }
+    await client.query({
+        query: GET_PLANET_BY_NAME,
+        variables: {
+            name
         }
-    }
+    })
 
-    if(errors) {
-        return {
-            props: {
-                error: true
-            }
+    return {
+        props: {
+            apolloInitialState: client.cache.extract()
         }
     }
 }
