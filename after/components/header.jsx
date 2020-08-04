@@ -17,6 +17,9 @@ export default () => (
                 <Link href="/planets-ssr" passHref>
                     <Nav.Link>Planets-SSR</Nav.Link>
                 </Link>
+                <Link href="/planets-btr" passHref>
+                    <Nav.Link>Planets-BTR</Nav.Link>
+                </Link>
                 <NavDropdown title="More-Planets" id="basic-nav-dropdown">
                     <Link href="/planet/[name]" as="/planet/tatooine" passHref>
                         <NavDropdown.Item>Tatooine</NavDropdown.Item>

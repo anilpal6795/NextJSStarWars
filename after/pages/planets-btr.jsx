@@ -17,7 +17,7 @@ export default () => {
     );
 }
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
     const client = initializeApolloClient();
 
     await client.query({

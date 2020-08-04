@@ -12,6 +12,6 @@ export default () => {
     });
 
     return loading ? (<h1>Loading...</h1>) : ( errors ? (<h1>Error occurred. Please retry!</h1>) : (
-        <PlanetTable data={data['allPlanets']} fetchMore={fetchMore} />
+        <PlanetTable data={data['planetsSet']} fetchMore={fetchMore} />
     ))
 }

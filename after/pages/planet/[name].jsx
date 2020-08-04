@@ -17,7 +17,7 @@ export default () => {
     });
 
     return errors ? (<h1>Error occurred. Please retry!</h1>) : (
-        <PlanetTable data={data['allPlanets']} />
+        <PlanetTable data={data['planetByName']} />
     );
 }
 

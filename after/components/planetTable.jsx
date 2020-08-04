@@ -51,7 +51,7 @@ export default ({ data, fetchMore }) => {
                             skip: currentPage*DATA_UNITS_COUNT
                         },
                         updateQuery: (prev, { fetchMoreResult }) => {
-                            if(fetchMoreResult['allPlanets'].length === 0){
+                            if(fetchMoreResult['planetsSet'].length === 0){
                                 setBtnDisabled(true);
                                 return prev;
                             };
@@ -59,7 +59,7 @@ export default ({ data, fetchMore }) => {
                             setCurrentPage(currentPage+1);
 
                             return Object.assign({}, prev, {
-                                allPlanets: [...prev['allPlanets'], ...fetchMoreResult['allPlanets']]
+                                planetsSet: [...prev['planetsSet'], ...fetchMoreResult['planetsSet']]
                             });
                         }
                     })

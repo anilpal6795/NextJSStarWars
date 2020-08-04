@@ -4,7 +4,7 @@ export const DATA_UNITS_COUNT = 5;
 
 export const GET_ALL_PLANETS = gql`
     query ($first: Int = ${DATA_UNITS_COUNT}, $skip: Int = 0) {
-        allPlanets(first: $first, skip: $skip) {
+        planetsSet: allPlanets(first: $first, skip: $skip) {
             id,
             name,
             climate,
@@ -17,7 +17,7 @@ export const GET_ALL_PLANETS = gql`
 
 export const GET_PLANET_BY_NAME = gql`
     query ($name: String!) {
-        allPlanets(
+        planetByName: allPlanets(
             filter: {
                 name: $name
             }
