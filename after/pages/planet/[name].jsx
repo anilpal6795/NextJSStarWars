@@ -3,11 +3,18 @@ import { initializeApolloClient } from '../../utils/apollo';
 import { GET_PLANET_BY_NAME } from '../../utils/queries';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router'
+import fs from 'fs';
 
 export default () => {
     const router = useRouter();
 
     const { name } = router.query;
+
+    const { isFallback } = router;
+
+    if(isFallback) {
+        return <h1>Loading...</h1>
+    }
 
     const { data, errors } = useQuery(GET_PLANET_BY_NAME, {
         variables: {
@@ -21,7 +28,7 @@ export default () => {
     );
 }
 
-export const getServerSideProps = async ({ params }) => {
+export const getStaticProps = async ({ params, preview, previewData }) => {
     const { name } = params;
 
     const client = initializeApolloClient();
@@ -37,5 +44,28 @@ export const getServerSideProps = async ({ params }) => {
         props: {
             apolloInitialState: client.cache.extract()
         }
+    }
+}
+
+export const getStaticPaths = async () => {
+    const planetByName = JSON.parse(fs.readFileSync('./utils/planetByName.json', 'utf-8'));
+
+    let paths = [];
+
+    planetByName.map(planet => {
+        paths.push({
+            params: {
+                name: planet.toLowerCase()
+            }
+        })
+    })
+
+    return {
+        paths,
+
+        /**
+         * Fallback option for non-existent statically generated  pages
+         */
+        fallback: false
     }
 }

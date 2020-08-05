@@ -17,7 +17,7 @@ export default () => {
     );
 }
 
-export const getStaticProps = async () => {
+export const getStaticProps = async ({ params, preview, previewData }) => {
     const client = initializeApolloClient();
 
     await client.query({
